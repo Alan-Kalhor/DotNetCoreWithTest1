@@ -5,7 +5,7 @@ def region = 'ap-southeast-2'
 node {
 
 	environment {
-		dotnet=/home/ec2-user/dotnet
+		PATH=$PATH:$HOME/dotnet
 	}
 	
     stage('Checkout'){
@@ -13,6 +13,7 @@ node {
     }
 	
 	stage('Restore Packages') {
+		echo "PATH is: $PATH"
 		sh "dotnet restore"
 //		sh "dotnet build src/HelloWorldJenkins"
 		
