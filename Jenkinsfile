@@ -2,14 +2,17 @@ def bucket = 'deployment-packages-test1'
 def functionName = 'Fibonacci'
 def region = 'ap-southeast-2'
 
-node {
-    stage('Checkout'){
+pipeline {
+
+	agent any
+	
+	stage('Checkout'){
         checkout scm
     }
 	
-	stage('Restore Packages') {
+	/*stage('Restore Packages') {
 		steps {
 			bat "dotnet restore"
 		}
-	}
+	}*/
 }
