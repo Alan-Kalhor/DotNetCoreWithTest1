@@ -4,9 +4,9 @@ def region = 'ap-southeast-2'
 
 node {
 
-	environment {
-		PATH = "$PATH:$HOME/dotnet"
-	}
+	//environment {
+//		PATH = "$PATH:$HOME/dotnet"
+//	}
 	
     stage('Checkout'){
         checkout scm
@@ -14,8 +14,7 @@ node {
 	
 	stage('Restore Packages') {
 		echo "PATH is: $PATH"
-		echo "HOME is: $HOME"
-		sh "dotnet restore"
+		sh 'dotnet restore'
 //		sh "dotnet build src/HelloWorldJenkins"
 		
 	}
