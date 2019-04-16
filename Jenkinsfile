@@ -4,9 +4,9 @@ def region = 'ap-southeast-2'
 
 node {
 
-	//environment {
-//		PATH = "$PATH:$HOME/dotnet"
-//	}
+	environment {
+		PATH = "$PATH:/home/ec2-user/dotnet"
+	}
 	
     stage('Checkout'){
         checkout scm
