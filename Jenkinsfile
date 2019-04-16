@@ -14,6 +14,7 @@ node {
 	
 	stage('Restore Packages') {
 		echo "PATH is: $PATH"
+		echo "HOME is: $HOME"
 		sh "dotnet restore"
 //		sh "dotnet build src/HelloWorldJenkins"
 		
