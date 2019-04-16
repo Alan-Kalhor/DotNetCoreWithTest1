@@ -8,6 +8,6 @@ node {
     }
 	
 	stage('Restore Packages') {
-		bat "dotnet restore"
+		dotnet restore
 	}
 }
