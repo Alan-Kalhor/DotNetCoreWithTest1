@@ -8,6 +8,8 @@ node {
     }
 	
 	stage('Restore Packages') {
-		dotnet restore
+		sh "dotnet restore"
+//		sh "dotnet build src/HelloWorldJenkins"
+		
 	}
 }
