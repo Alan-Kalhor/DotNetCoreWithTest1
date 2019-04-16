@@ -5,7 +5,7 @@ def region = 'ap-southeast-2'
 node {
 
 	environment {
-		PATH=$PATH:$HOME/dotnet
+		PATH = "$PATH:$HOME/dotnet"
 	}
 	
     stage('Checkout'){
