@@ -6,4 +6,10 @@ node {
     stage('Checkout'){
         checkout scm
     }
+	
+	stage('Restore Packages') {
+		steps {
+			bat "dotnet restore"
+		}
+	}
 }
