@@ -20,6 +20,6 @@ node {
 //	}
 
 	stage('Clean') {
-		sh '/home/ec2-user/dotnet/dotnet clean'
+		sh '/home/ec2-user/dotnet/dotnet build --configuration Release'
 	}
 }
