@@ -13,11 +13,13 @@ node {
         checkout scm
     }
 	
-	stage('Restore Packages') {
-		//echo "DOTNET_PATH is: $DOTNET_PATH"
-		sh "printenv | sort"
-		sh '/home/ec2-user/dotnet/dotnet restore'
-//		sh "dotnet build src/HelloWorldJenkins"
-		
+//	stage('Restore Packages') {
+//		sh "printenv | sort"
+//		sh '/home/ec2-user/dotnet/dotnet restore'
+//		sh "dotnet build src/HelloWorldJenkins"		
+//	}
+
+	stage('Clean') {
+		sh '/home/ec2-user/dotnet/dotnet clean'
 	}
 }
