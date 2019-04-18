@@ -19,7 +19,7 @@ node {
 //	}
 	
     stage('Check'){
-		sh "./home/ec2-user/dotnet/dotnet --version"
+		sh "/home/ec2-user/dotnet/dotnet --version"
 		//dir('/home/ec2-user/dotnet'){
 //		  sh 'cdr=$(pwd); $cdr/jenkins.sh "dotnet --version"'
 	//	}		
