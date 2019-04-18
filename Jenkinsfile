@@ -19,7 +19,7 @@ node {
 //	}
 	
     stage('Check'){
-		sh "./dotnet --version"
+		sh "bash dotnet --version"
     }
 	
 	stage('Build') {
