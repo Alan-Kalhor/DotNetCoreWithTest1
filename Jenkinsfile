@@ -19,6 +19,8 @@ node {
 //	}
 	
     stage('Check'){
+		sh "chmod +x /home/ec2-user/dotnet/"
+
 		sh "/home/ec2-user/dotnet/dotnet --version"
 		//dir('/home/ec2-user/dotnet'){
 //		  sh 'cdr=$(pwd); $cdr/jenkins.sh "dotnet --version"'
