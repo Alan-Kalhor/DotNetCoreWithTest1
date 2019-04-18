@@ -6,7 +6,6 @@ node {
 
 	environment {
 		DOTNET_PATH = '"/home/ec2-user/dotnet'
-		HOME = '/tmp'
 	}
 	
     stage('Checkout'){
@@ -18,7 +17,13 @@ node {
 //		sh '/home/ec2-user/dotnet/dotnet restore'
 //		sh "dotnet build src/HelloWorldJenkins"		
 //	}
-
+	
+    stage('Check'){
+		dir ('/home/ec2-user/dotnet/') { 
+			sh('dotnet --version')
+		}		        
+    }
+	
 	stage('Build') {
 		//sh '/home/ec2-user/dotnet/dotnet build --configuration Release'
 		dir ('/home/ec2-user/dotnet/') { 
