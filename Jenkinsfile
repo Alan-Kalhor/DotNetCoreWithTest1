@@ -19,7 +19,7 @@ node {
 //		sh "dotnet build src/HelloWorldJenkins"		
 //	}
 
-	stage('Clean') {
-		sh '/home/ec2-user/dotnet/dotnet build --configuration Release'
+	stage('Build') {
+		sudo sh '/home/ec2-user/dotnet/dotnet build --configuration Release'
 	}
 }
