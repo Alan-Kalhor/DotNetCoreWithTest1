@@ -20,6 +20,9 @@ node {
 //	}
 
 	stage('Build') {
-		sudo sh '/home/ec2-user/dotnet/dotnet build --configuration Release'
+		//sh '/home/ec2-user/dotnet/dotnet build --configuration Release'
+		dir ('/home/ec2-user/dotnet/') { 
+			sh('dotnet build --configuration Release')
+		}		
 	}
 }
