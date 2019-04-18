@@ -19,9 +19,7 @@ node {
 //	}
 	
     stage('Check'){
-		dir ('/home/ec2-user/dotnet/') { 
-			sh('dotnet --version')
-		}		        
+		sh('/home/ec2-user/dotnet/dotnet --version')
     }
 	
 	stage('Build') {
