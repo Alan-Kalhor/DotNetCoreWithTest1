@@ -21,12 +21,12 @@ node {
     stage('Check'){
 		sh "sudo -s chmod +x /home/ec2-user/dotnet"
 	
-		sh "echo ${DOTNET_PATH}"
-		sh "echo ${DOTNET_PATH}"
+		//sh "echo ${DOTNET_PATH}"
+		sh 'echo $DOTNET_PATH'
 		
 
 		sh "sudo /home/ec2-user/dotnet/dotnet --version"
-		sh "sudo ${DOTNET_PATH}/dotnet --version"
+		sh "sudo $DOTNET_PATH/dotnet --version"
 		
 		//dir('/home/ec2-user/dotnet'){
 		  //sh 'cdr=$(pwd); $cdr/jenkins.sh "dotnet --version"'
