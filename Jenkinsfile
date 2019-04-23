@@ -4,9 +4,12 @@ def region = 'ap-southeast-2'
 
 node {
 
-	environment {
-		DOTNET_PATH = '/home/ec2-user/dotnet'
-	}
+	//environment {
+	//	DOTNET_PATH = '/home/ec2-user/dotnet'
+	//}
+	
+	def DOTNET_PATH = '/home/ec2-user/dotnet'
+
 	
     stage('Checkout'){
         checkout scm
@@ -21,7 +24,7 @@ node {
     stage('Check'){
 		sh "sudo -s chmod +x /home/ec2-user/dotnet"
 	
-		//sh "echo ${DOTNET_PATH}"
+		sh "echo $DOTNET_PATH"
 		sh 'echo $DOTNET_PATH'
 		
 
