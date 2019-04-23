@@ -21,16 +21,18 @@ node {
     stage('Check'){
 		sh "sudo -s chmod +x /home/ec2-user/dotnet"
 
-		sh "sudo -s /home/ec2-user/dotnet/dotnet --version"
-		//dir('/home/ec2-user/dotnet'){
-//		  sh 'cdr=$(pwd); $cdr/jenkins.sh "dotnet --version"'
-	//	}		
+		sh "sudo /home/ec2-user/dotnet/dotnet --version"
+		dir('/home/ec2-user/dotnet'){
+		  //sh 'cdr=$(pwd); $cdr/jenkins.sh "dotnet --version"'
+		  sh "sudo dotnet --version"
+		}		
     }
-	
+/*	
 	stage('Build') {
 		//sh '/home/ec2-user/dotnet/dotnet build --configuration Release'
 		dir ('/home/ec2-user/dotnet/') { 
 			sh('dotnet build --configuration Release')
 		}		
 	}
+	*/
 }
