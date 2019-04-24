@@ -46,9 +46,10 @@ node {
 	}
 	
 	stage('Deploy') {
-		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
+		//env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		//env.PATH = "$PATH:/home/ec2-user/.dotnet/tools"
-		sh "printenv | sort"
-		sh "sudo $DOTNET_LAMBDA_PATH/dotnet-lambda help"
+		//sh "printenv | sort"
+		//sh "sudo $DOTNET_LAMBDA_PATH/dotnet-lambda help"
+		sh "sudo $DOTNET_PATH/dotnet tool install"
 	}
 }
