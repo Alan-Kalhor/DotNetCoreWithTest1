@@ -5,7 +5,7 @@ def region = 'ap-southeast-2'
 node {
 
 	environment {
-		DOTNET_ROOT=$HOME/dotnet
+		DOTNET_ROOT="$HOME/dotnet"
 	}
 	
 	def DOTNET_PATH = '/home/ec2-user/dotnet'
