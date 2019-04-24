@@ -49,11 +49,7 @@ node {
 		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
 		//sh "printenv | sort"
-		//sh "sudo $DOTNET_LAMBDA_PATH/dotnet-lambda help"
-		//sh "sudo $DOTNET_PATH/dotnet tool install -g Amazon.Lambda.Tools"
-		//sh "sudo $DOTNET_PATH/dotnet tool uninstall -g Amazon.Lambda.Tools"
-		//sh "bash $DOTNET_PATH/dotnet-lambda"
 		sh "$DOTNET_PATH/dotnet-lambda list-functions"
-
+		sh "$DOTNET_PATH/dotnet-lambda dotnet lambda package --configuration release --framework netcoreapp2.1 --output-package bin/release/netcoreapp2.1/deploy-package.zip"
 	}
 }
