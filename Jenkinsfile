@@ -46,6 +46,7 @@ node {
 	}
 	
 	stage('Deploy') {
+		sh "printenv | sort"
 		sh "sudo $DOTNET_LAMBDA_PATH/dotnet-lambda help"
 	}
 }
