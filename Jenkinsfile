@@ -45,6 +45,6 @@ node {
 	}
 	
 	stage('Deploy') {
-		sh "sudo $DOTNET_PATH/dotnet lambda help"
+		sh "sudo dotnet lambda help"
 	}
 }
