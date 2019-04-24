@@ -53,6 +53,8 @@ node {
 		//dir("AWSServerlessWithTest2") {
 		//	sh "$DOTNET_PATH/dotnet-lambda package --configuration release --framework netcoreapp2.1 --output-package bin/release/netcoreapp2.1/deploy-package.zip"
 		//}
-		sh "$DOTNET_PATH/dotnet-lambda deploy-function DotNetCoreWithTest1 --function-role JenkinsBuildRole"
+		dir("AWSServerlessWithTest2") {
+			sh "$DOTNET_PATH/dotnet-lambda deploy-function DotNetCoreWithTest1 --function-role JenkinsBuildRole"
+		}
 	}
 }
