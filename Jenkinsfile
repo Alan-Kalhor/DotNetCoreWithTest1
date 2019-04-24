@@ -52,6 +52,6 @@ node {
 		//sh "sudo $DOTNET_LAMBDA_PATH/dotnet-lambda help"
 		//sh "sudo $DOTNET_PATH/dotnet tool install -g Amazon.Lambda.Tools"
 		//sh "sudo $DOTNET_PATH/dotnet tool uninstall -g Amazon.Lambda.Tools"
-		sh "$DOTNET_PATH/dotnet-lambda"
+		sh "bash $DOTNET_PATH/dotnet-lambda"
 	}
 }
