@@ -9,6 +9,7 @@ node {
 	//}
 	
 	def DOTNET_PATH = '/home/ec2-user/dotnet'
+	def DOTNET_LAMBDA_PATH = '/home/ec2-user/.dotnet/tools'
 
 	
     stage('Checkout'){
@@ -45,6 +46,6 @@ node {
 	}
 	
 	stage('Deploy') {
-		sh "sudo dotnet lambda help"
+		sh "sudo $DOTNET_LAMBDA_PATH/dotnet lambda help"
 	}
 }
