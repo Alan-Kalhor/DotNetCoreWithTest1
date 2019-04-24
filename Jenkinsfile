@@ -20,7 +20,7 @@ node {
 //		sh '/home/ec2-user/dotnet/dotnet restore'
 //		sh "dotnet build src/HelloWorldJenkins"		
 //	}
-	
+/*	
     stage('Check'){
 		sh "sudo -s chmod +x /home/ec2-user/dotnet"
 	
@@ -35,11 +35,16 @@ node {
 		 // sh "sudo dotnet --version"
 		//}		
     }
+*/	
+	stage('Clean') {
+		sh "sudo $DOTNET_PATH/dotnet clean"
+	}
 	
 	stage('Build') {
-		//sh '/home/ec2-user/dotnet/dotnet build --configuration Release'
-		//sh('dotnet build --configuration Release')
 		sh "sudo $DOTNET_PATH/dotnet build --configuration Release"
 	}
 	
+	stage('Deploy') {
+		sh "sudo $DOTNET_PATH/dotnet lambda help"
+	}
 }
