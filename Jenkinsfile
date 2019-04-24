@@ -46,7 +46,7 @@ node {
 	}
 	
 	stage('Deploy') {
-		env.DOTNET_ROOT = "$HOME/dotnet"
+		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		sh "printenv | sort"
 		sh "sudo $DOTNET_LAMBDA_PATH/dotnet-lambda help"
 	}
