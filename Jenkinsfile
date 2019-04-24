@@ -51,5 +51,6 @@ node {
 		//sh "printenv | sort"
 		//sh "sudo $DOTNET_LAMBDA_PATH/dotnet-lambda help"
 		sh "sudo $DOTNET_PATH/dotnet tool install -g Amazon.Lambda.Tools"
+		sh "sudo $DOTNET_LAMBDA_PATH/dotnet-lambda help"
 	}
 }
