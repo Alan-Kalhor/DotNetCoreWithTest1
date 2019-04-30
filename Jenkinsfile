@@ -45,7 +45,7 @@ node {
 		sh "sudo $DOTNET_PATH/dotnet build --configuration Release"
 	}
 	
-	stage('Deploy') {
+	stage('Deploy Function') {
 		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
 		//sh "printenv | sort"
@@ -54,7 +54,18 @@ node {
 		//	sh "$DOTNET_PATH/dotnet-lambda package --configuration release --framework netcoreapp2.1 --output-package bin/release/netcoreapp2.1/deploy-package.zip"
 		//}
 		dir("AWSServerlessWithTest2") {
-			sh "$DOTNET_PATH/dotnet-lambda deploy-function DotNetCoreWithTest1 --function-role JenkinsBuildRole"
+			//sh "$DOTNET_PATH/dotnet-lambda deploy-function DotNetCoreWithTest1 --function-role JenkinsBuildRole"
+			sh "$DOTNET_PATH/dotnet-lambda deploy-function --function-runtime dotnetcore2.1 --function-name dotnettest2-4  --function-memory-size 256 --function-timeout 30 --function-role mydotnetroll --function-handler AWSServerlessWithTest2::AWSServerlessWithTest2.LambdaEntryPoint::FunctionHandlerAsync --disable-interactive true"
 		}
 	}
+	
+	stage('Deploy Serverless') {
+		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
+		env.PATH = "$PATH:/home/ec2-user/dotnet"
+
+		dir("AWSServerlessWithTest2") {
+			sh "$DOTNET_PATH/dotnet-lambda deploy-serverless dotnettest2-4"
+		}
+	}
+	
 }
