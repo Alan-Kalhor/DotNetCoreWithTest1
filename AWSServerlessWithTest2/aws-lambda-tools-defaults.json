@@ -13,6 +13,6 @@
     "s3-prefix"     : "AWSServerlessWithTest2/",
     "template"      : "serverless.template",
     "template-parameters" : "\"ShouldCreateBucket\"=\"true\";\"BucketName\"=\"\"",
-    "s3-bucket"           : "s3.alankalhor.dotnettest2",
+    "s3-bucket"           : "deployment-packages-test1",
     "stack-name"          : "AWSServerlessWithTest2"
 }
