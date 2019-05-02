@@ -73,6 +73,21 @@ node {
 				returnStdout: true
 			)
 			sh "echo $lambdaVersion"
+
+			def existing_aliases = sh(
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | {Name: .Name}'",
+				returnStdout: true
+			)		
+			
+			sh "echo $existing_aliases"
+			
+			def prod_alias = sh(
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == "production") | .Name'",
+				returnStdout: true
+			)
+			
+			sh "echo $prod_alias"
+			
 			//sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
 		}
 	}	
