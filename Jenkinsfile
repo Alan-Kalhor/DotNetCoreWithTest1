@@ -50,14 +50,14 @@ node {
 		sh "sudo $DOTNET_PATH/dotnet test"
 	}
 	
+	//sh "printenv | sort"	
+	
+/*
 	stage('Deploy') {
 		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
-		//sh "printenv | sort"
+
 		sh "$DOTNET_PATH/dotnet-lambda list-functions"
-		//dir("AWSServerlessWithTest2") {
-		//	sh "$DOTNET_PATH/dotnet-lambda package --configuration release --framework netcoreapp2.1 --output-package bin/release/netcoreapp2.1/deploy-package.zip"
-		//}
 		dir("AWSServerlessWithTest2") {
 			//sh "$DOTNET_PATH/dotnet-lambda deploy-function DotNetCoreWithTest1 --function-role JenkinsBuildRole"
 			sh "$DOTNET_PATH/dotnet-lambda deploy-function --function-runtime dotnetcore2.1 --function-name dotnettest2-4  --function-memory-size 256 --function-timeout 30 --function-role mydotnetroll --function-handler AWSServerlessWithTest2::AWSServerlessWithTest2.LambdaEntryPoint::FunctionHandlerAsync --disable-interactive true"
@@ -66,14 +66,17 @@ node {
 
 		}
 	}
+*/
 	
 	if (env.BRANCH_NAME == 'master') {
 		stage('Publish') {
+		/*
 			def lambdaVersion = sh(
 				script: "aws lambda publish-version --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Version'",
 				returnStdout: true
 			)
 			sh "echo $lambdaVersion"
+*/			
 
 			def existing_aliases = sh(
 				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | {Name: .Name}'",
@@ -83,7 +86,7 @@ node {
 			sh "echo $existing_aliases"
 			
 			def prod_alias = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == ${PROD_ALIAS}) | .Name'",
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | .Name'",
 				returnStdout: true
 			)
 			
