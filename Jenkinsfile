@@ -46,7 +46,7 @@ node {
 	}
 	
 	stage('Test') {
-		sh "sudo $DOTNET_PATH/dotnet test
+		sh "sudo $DOTNET_PATH/dotnet test"
 	}
 	
 	stage('Deploy') {
