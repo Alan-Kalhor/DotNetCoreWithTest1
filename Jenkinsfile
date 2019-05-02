@@ -99,10 +99,8 @@ node {
 
 
 		stage('Deploy to Staging?') {
-			steps {
-				milestone 2
-				input "Do you want to deploy to Staging?"
-			}
+			milestone 2
+			input "Do you want to deploy to Staging?"
 		}
 
 		stage('Deploy to Staging') {
@@ -110,10 +108,8 @@ node {
 		}
 		
 		stage('Deploy to Production?') {
-			steps {
-				milestone 3
-				input "Do you want to deploy to Production?"
-			}
+			milestone 3
+			input "Do you want to deploy to Production?"
 		}		
 		
 		stage('Deploy to Production') {
