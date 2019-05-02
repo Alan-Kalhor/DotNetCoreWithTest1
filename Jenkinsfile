@@ -9,8 +9,8 @@ node {
 //	}
 	
 	def DOTNET_PATH = '/home/ec2-user/dotnet'
-	//def DOTNET_LAMBDA_PATH = '/home/ec2-user/.dotnet/tools'
-
+	def FUNCTION_NAME = 'dotnettest2-4'
+	def REGION = 'ap-southeast-2'
 	
     stage('Checkout'){
         checkout scm
@@ -45,7 +45,11 @@ node {
 		sh "sudo $DOTNET_PATH/dotnet build --configuration Release"
 	}
 	
-	stage('Deploy Function') {
+	stage('Test') {
+		sh "sudo $DOTNET_PATH/dotnet test
+	}
+	
+	stage('Deploy') {
 		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
 		//sh "printenv | sort"
@@ -56,16 +60,30 @@ node {
 		dir("AWSServerlessWithTest2") {
 			//sh "$DOTNET_PATH/dotnet-lambda deploy-function DotNetCoreWithTest1 --function-role JenkinsBuildRole"
 			sh "$DOTNET_PATH/dotnet-lambda deploy-function --function-runtime dotnetcore2.1 --function-name dotnettest2-4  --function-memory-size 256 --function-timeout 30 --function-role mydotnetroll --function-handler AWSServerlessWithTest2::AWSServerlessWithTest2.LambdaEntryPoint::FunctionHandlerAsync --disable-interactive true"
+			
+			sh "$DOTNET_PATH/dotnet-lambda deploy-serverless dotnettest2-4"
+
 		}
 	}
 	
-	stage('Deploy Serverless') {
+	if (env.BRANCH_NAME == 'master') {
+		stage('Publish') {
+			def lambdaVersion = sh(
+				script: "aws lambda publish-version --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Version'",
+				returnStdout: true
+			)
+			sh "echo $lambdaVersion"
+			//sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
+		}
+	}	
+	
+	/*stage('Deploy Serverless') {
 		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
 
 		dir("AWSServerlessWithTest2") {
 			sh "$DOTNET_PATH/dotnet-lambda deploy-serverless dotnettest2-4"
 		}
-	}
+	}*/
 	
 }
