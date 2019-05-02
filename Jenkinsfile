@@ -11,6 +11,7 @@ node {
 	def DOTNET_PATH = '/home/ec2-user/dotnet'
 	def FUNCTION_NAME = 'dotnettest2-4'
 	def REGION = 'ap-southeast-2'
+	def PROD_ALIAS = 'production'
 	
     stage('Checkout'){
         checkout scm
@@ -82,7 +83,7 @@ node {
 			sh "echo $existing_aliases"
 			
 			def prod_alias = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == "production") | .Name'",
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == ${PROD_ALIAS}) | .Name'",
 				returnStdout: true
 			)
 			
