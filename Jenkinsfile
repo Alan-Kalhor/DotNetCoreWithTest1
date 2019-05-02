@@ -70,13 +70,13 @@ node {
 	
 	if (env.BRANCH_NAME == 'master') {
 		stage('Publish') {
-		/*
+		
 			def lambdaVersion = sh(
 				script: "aws lambda publish-version --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Version'",
 				returnStdout: true
 			)
 			sh "echo $lambdaVersion"
-*/			
+			
 
 			def existing_aliases = sh(
 				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | {Name: .Name}'",
@@ -85,17 +85,43 @@ node {
 			
 			sh "echo $existing_aliases"
 			
-			def prod_alias = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | .Name'",
+			/*
+			def is_prod_alias_exists = sh(
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | true'",
 				returnStdout: true
 			)
 			
-			sh "echo $prod_alias"
+			sh "echo $is_prod_alias_exists"
+			*/
 			
 			//sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
 		}
+
+
+		stage('Deploy to Staging?') {
+			steps {
+				milestone 2
+				input "Do you want to deploy to Staging?"
+			}
+		}
+
+		stage('Deploy to Staging') {
+			sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name staging --region ${REGION} --function-version ${lambdaVersion}"
+		}
+		
+		stage('Deploy to Production?') {
+			steps {
+				milestone 3
+				input "Do you want to deploy to Production?"
+			}
+		}		
+		
+		stage('Deploy to Production') {
+			sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name staging --region ${REGION} --function-version ${lambdaVersion}"
+		}
 	}	
 	
+
 	/*stage('Deploy Serverless') {
 		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
