@@ -11,7 +11,7 @@ node {
 	def DOTNET_PATH = '/home/ec2-user/dotnet'
 	def FUNCTION_NAME = 'dotnettest2-4'
 	def REGION = 'ap-southeast-2'
-	def PROD_ALIAS = 'production'
+	def PROD_ALIAS = "production"
 	
 	def lambdaVersion = ''
 	
@@ -53,20 +53,11 @@ node {
 			)
 			sh "echo $lambdaVersion"
 			
-/*
-			def existing_aliases = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[]'",
-				returnStdout: true
-			)		
-
-			sh "echo $existing_aliases"
-*/			
-			
 			def is_prod_alias_exists = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | 1'",
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == ${PROD_ALIAS}) | 1'",
 				returnStdout: true
 			)
-			
+		
 			sh "echo $is_prod_alias_exists"
 			
 			if (is_prod_alias_exists.trim().equals("1")) {
