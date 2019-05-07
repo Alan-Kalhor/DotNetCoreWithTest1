@@ -28,7 +28,7 @@ node {
 		sh "sudo $DOTNET_PATH/dotnet test"
 	}
 	
-
+/*
 	stage('Deploy') {
 		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
@@ -42,7 +42,7 @@ node {
 
 		}
 	}
-
+*/
 	
 	if (env.BRANCH_NAME == 'master') {
 		stage('Publish') {
@@ -53,14 +53,14 @@ node {
 			)
 			sh "echo $lambdaVersion"
 			
-/*
+
 			def existing_aliases = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | {Name: .Name}'",
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[]'",
 				returnStdout: true
 			)		
 
 			sh "echo $existing_aliases"
-*/			
+			
 			/*
 			def is_prod_alias_exists = sh(
 				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | true'",
