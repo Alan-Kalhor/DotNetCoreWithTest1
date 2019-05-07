@@ -62,9 +62,9 @@ node {
 		sh "$DOTNET_PATH/dotnet-lambda list-functions"
 		dir("AWSServerlessWithTest2") {
 			//sh "$DOTNET_PATH/dotnet-lambda deploy-function DotNetCoreWithTest1 --function-role JenkinsBuildRole"
-			sh "$DOTNET_PATH/dotnet-lambda deploy-function --function-runtime dotnetcore2.1 --function-name dotnettest2-4  --function-memory-size 256 --function-timeout 30 --function-role mydotnetroll --function-handler AWSServerlessWithTest2::AWSServerlessWithTest2.LambdaEntryPoint::FunctionHandlerAsync --disable-interactive true"
+			sh "$DOTNET_PATH/dotnet-lambda deploy-function --function-runtime dotnetcore2.1 --function-name ${FUNCTION_NAME}  --function-memory-size 256 --function-timeout 30 --function-role mydotnetroll --function-handler AWSServerlessWithTest2::AWSServerlessWithTest2.LambdaEntryPoint::FunctionHandlerAsync --disable-interactive true"
 			
-			sh "$DOTNET_PATH/dotnet-lambda deploy-serverless dotnettest2-4"
+			sh "$DOTNET_PATH/dotnet-lambda deploy-serverless ${FUNCTION_NAME}"
 
 		}
 	}
@@ -115,7 +115,7 @@ node {
 		}		
 		
 		stage('Deploy to Production') {
-			sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name staging --region ${REGION} --function-version ${lambdaVersion}"
+			sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
 		}
 	}	
 	
@@ -125,7 +125,7 @@ node {
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
 
 		dir("AWSServerlessWithTest2") {
-			sh "$DOTNET_PATH/dotnet-lambda deploy-serverless dotnettest2-4"
+			sh "$DOTNET_PATH/dotnet-lambda deploy-serverless ${FUNCTION_NAME}"
 		}
 	}*/
 	
