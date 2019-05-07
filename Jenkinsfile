@@ -53,22 +53,22 @@ node {
 			)
 			sh "echo $lambdaVersion"
 			
-
+/*
 			def existing_aliases = sh(
 				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[]'",
 				returnStdout: true
 			)		
 
 			sh "echo $existing_aliases"
+*/			
 			
-			/*
 			def is_prod_alias_exists = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | true'",
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | 1'",
 				returnStdout: true
 			)
 			
 			sh "echo $is_prod_alias_exists"
-			*/
+			
 			
 			//sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
 		}
