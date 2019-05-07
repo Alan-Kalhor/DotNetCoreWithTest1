@@ -53,34 +53,7 @@ node {
 				script: "aws lambda publish-version --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Version'",
 				returnStdout: true
 			)
-			sh "echo $lambdaVersion"
-			
-			def check_prod_alias = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"${PROD_ALIAS}\") | 1'",
-				returnStdout: true
-			)
-			def check_staging_alias = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"${STAGING_ALIAS}\") | 1'",
-				returnStdout: true
-			)
-		
-			if (!check_staging_alias.trim().equals("1")) {
-				sh "echo 'staging not exists'"			
-			}
-			else {
-				sh "echo 'staging exists'"				
-			}
-
-			sh "echo $check_prod_alias"
-			
-			if (!check_prod_alias.trim().equals("1")) {
-				sh "echo 'prod not exists'"			
-			}
-			else {
-				sh "echo 'prod exists'"				
-			}
-			
-			//sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
+			sh "echo $lambdaVersion"						
 		}
 
 
@@ -90,7 +63,17 @@ node {
 		}
 
 		stage('Deploy to Staging') {
-			sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name staging --region ${REGION} --function-version ${lambdaVersion}"
+			def check_staging_alias = sh(
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"${STAGING_ALIAS}\") | 1'",
+				returnStdout: true
+			)
+			
+			if (!check_staging_alias.trim().equals("1")) {
+				sh "aws lambda create-alias --function-name ${FUNCTION_NAME} --name ${STAGING_ALIAS} --region ${REGION} --function-version ${lambdaVersion}"
+			}
+			else {
+				sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name ${STAGING_ALIAS} --region ${REGION} --function-version ${lambdaVersion}"			
+			}
 		}
 		
 		stage('Deploy to Production?') {
@@ -99,7 +82,17 @@ node {
 		}		
 		
 		stage('Deploy to Production') {
-			sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
+			def check_prod_alias = sh(
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"${PROD_ALIAS}\") | 1'",
+				returnStdout: true
+			)
+		
+			if (!check_prod_alias.trim().equals("1")) {
+				sh "aws lambda create-alias --function-name ${FUNCTION_NAME} --name ${PROD_ALIAS} --region ${REGION} --function-version ${lambdaVersion}"
+			}
+			else {
+				sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name ${PROD_ALIAS} --region ${REGION} --function-version ${lambdaVersion}"
+			}		
 		}
 	}	
 	
