@@ -19,32 +19,8 @@ node {
         checkout scm
     }
 	
-//	stage('Restore Packages') {
-//		sh "printenv | sort"
-//		sh '/home/ec2-user/dotnet/dotnet restore'
-//		sh "dotnet build src/HelloWorldJenkins"		
-//	}
-/*	
-    stage('Check'){
-		sh "sudo -s chmod +x /home/ec2-user/dotnet"
-	
-		sh "echo $DOTNET_PATH"
-		
-
-		//sh "sudo /home/ec2-user/dotnet/dotnet --version"
-		sh "sudo $DOTNET_PATH/dotnet --version"
-		
-		//dir('/home/ec2-user/dotnet'){
-		  //sh 'cdr=$(pwd); $cdr/jenkins.sh "dotnet --version"'
-		 // sh "sudo dotnet --version"
-		//}		
-    }
-*/	
-	stage('Clean') {
-		sh "sudo $DOTNET_PATH/dotnet clean"
-	}
-	
 	stage('Build') {
+		sh "sudo $DOTNET_PATH/dotnet clean"	
 		sh "sudo $DOTNET_PATH/dotnet build --configuration Release"
 	}
 	
@@ -52,9 +28,7 @@ node {
 		sh "sudo $DOTNET_PATH/dotnet test"
 	}
 	
-	//sh "printenv | sort"	
-	
-/*
+
 	stage('Deploy') {
 		env.DOTNET_ROOT = "/home/ec2-user/dotnet"
 		env.PATH = "$PATH:/home/ec2-user/dotnet"
@@ -68,7 +42,7 @@ node {
 
 		}
 	}
-*/
+
 	
 	if (env.BRANCH_NAME == 'master') {
 		stage('Publish') {
