@@ -63,11 +63,11 @@ node {
 */			
 			
 			def is_prod_alias_exists = sh(
-				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | 1'",
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"production\") | \"1\"'",
 				returnStdout: true
 			)
 			
-			//sh "echo $is_prod_alias_exists"
+			sh "echo $is_prod_alias_exists"
 			
 			if (is_prod_alias_exists == '1') {
 				sh "echo 'exists'"
