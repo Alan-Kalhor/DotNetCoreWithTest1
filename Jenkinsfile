@@ -13,6 +13,8 @@ node {
 	def REGION = 'ap-southeast-2'
 	def PROD_ALIAS = 'production'
 	
+	def lambdaVersion = ''
+	
     stage('Checkout'){
         checkout scm
     }
@@ -71,7 +73,7 @@ node {
 	if (env.BRANCH_NAME == 'master') {
 		stage('Publish') {
 		
-			def lambdaVersion = sh(
+			lambdaVersion = sh(
 				script: "aws lambda publish-version --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Version'",
 				returnStdout: true
 			)
