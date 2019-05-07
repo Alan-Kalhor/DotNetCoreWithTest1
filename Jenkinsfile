@@ -12,6 +12,8 @@ node {
 	def FUNCTION_NAME = 'dotnettest2-4'
 	def REGION = 'ap-southeast-2'
 	def PROD_ALIAS = 'production'
+	def STAGING_ALIAS = 'staging'
+
 	
 	def lambdaVersion = ''
 	
@@ -53,18 +55,29 @@ node {
 			)
 			sh "echo $lambdaVersion"
 			
-			def is_prod_alias_exists = sh(
+			def check_prod_alias = sh(
 				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"${PROD_ALIAS}\") | 1'",
 				returnStdout: true
 			)
+			def check_staging_alias = sh(
+				script: "aws lambda list-aliases --function-name ${FUNCTION_NAME} --region ${REGION} | jq -r '.Aliases[] | select(.Name == \"${STAGING_ALIAS}\") | 1'",
+				returnStdout: true
+			)
 		
-			sh "echo $is_prod_alias_exists"
+			sh "echo $check_prod_alias"
 			
-			if (is_prod_alias_exists.trim().equals("1")) {
-				sh "echo 'exists'"
+			if (check_prod_alias.trim().equals("1")) {
+				sh "echo 'prod exists'"
 			}
 			else {
-				sh "echo 'not exists'"
+				sh "echo 'prod not exists'"
+			}
+
+			if (check_staging_alias.trim().equals("1")) {
+				sh "echo 'staging exists'"
+			}
+			else {
+				sh "echo 'staging not exists'"
 			}
 			
 			//sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
