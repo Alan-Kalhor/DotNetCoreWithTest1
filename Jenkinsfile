@@ -64,20 +64,20 @@ node {
 				returnStdout: true
 			)
 		
-			sh "echo $check_prod_alias"
-			
-			if (check_prod_alias.trim().equals("1")) {
-				sh "echo 'prod exists'"
+			if (!check_staging_alias.trim().equals("1")) {
+				sh "echo 'staging not exists'"			
 			}
 			else {
-				sh "echo 'prod not exists'"
+				sh "echo 'staging exists'"				
 			}
 
-			if (check_staging_alias.trim().equals("1")) {
-				sh "echo 'staging exists'"
+			sh "echo $check_prod_alias"
+			
+			if (!check_prod_alias.trim().equals("1")) {
+				sh "echo 'prod not exists'"			
 			}
 			else {
-				sh "echo 'staging not exists'"
+				sh "echo 'prod exists'"				
 			}
 			
 			//sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
