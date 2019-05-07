@@ -69,7 +69,7 @@ node {
 			
 			//sh "echo $is_prod_alias_exists"
 			
-			if (is_prod_alias_exists == 1) {
+			if (is_prod_alias_exists == '1') {
 				sh "echo 'exists'"
 			}
 			else {
