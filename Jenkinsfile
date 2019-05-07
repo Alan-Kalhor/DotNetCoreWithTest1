@@ -67,8 +67,14 @@ node {
 				returnStdout: true
 			)
 			
-			sh "echo $is_prod_alias_exists"
+			//sh "echo $is_prod_alias_exists"
 			
+			if (is_prod_alias_exists == 1) {
+				sh "echo 'exists'"
+			}
+			else {
+				sh "echo 'not exists'"
+			}
 			
 			//sh "aws lambda update-alias --function-name ${FUNCTION_NAME} --name production --region ${REGION} --function-version ${lambdaVersion}"
 		}
